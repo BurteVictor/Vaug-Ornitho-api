@@ -1,7 +1,5 @@
 package com.adaming.vaugrenier.dto;
 
-import com.adaming.vaugrenier.entity.Observation;
-
 public class ObservationDto {
     private Long id;
     private String genre;

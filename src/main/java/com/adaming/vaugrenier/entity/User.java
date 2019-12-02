@@ -1,5 +1,7 @@
 package com.adaming.vaugrenier.entity;
 
+import com.adaming.vaugrenier.dto.UserDto;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -15,6 +17,11 @@ public class User implements Serializable {
     private String email;
 
     public User(){}
+    public User(Long id, String pseudo, String email){
+        this.id=id;
+        this.pseudo=pseudo;
+        this.email=email;
+    }
 
     public Long getId() {
         return id;
@@ -42,5 +49,10 @@ public class User implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public UserDto toDto(){
+        User user=new User(this.id,this.pseudo,this.email);
+        return new UserDto(user.getId(),user.getPseudo(),user.getEmail());
     }
 }
