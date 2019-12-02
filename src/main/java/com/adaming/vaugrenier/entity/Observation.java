@@ -1,5 +1,6 @@
 package com.adaming.vaugrenier.entity;
 
+import com.adaming.vaugrenier.dto.ObservationDto;
 import org.hibernate.annotations.Generated;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -75,5 +76,9 @@ public class Observation implements Serializable {
 
     public void setObservationCounter(int observationCounter) {
         this.observationCounter = observationCounter;
+    }
+
+    public ObservationDto toDto(Observation observation){
+        return new ObservationDto(observation.getId(),observation.getGenre(),observation.getSpecies(),observation.getImageUrl(),observation.getDescription());
     }
 }
