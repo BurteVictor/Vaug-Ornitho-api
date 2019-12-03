@@ -15,11 +15,20 @@ public class ObservationServiceImpl implements ObservationService {
     ObservationRepository observationRepository;
 
     @Override
-    public ObservationDto getSpecificObs(Long id) {
+    public ObservationDto getSpecificObsDto(Long id) {
         Observation observation=observationRepository.getObservationById(id);
         return observation.toDto();
     }
-
+    @Override
+    public Observation getSpecificObs(Long id) {
+        Observation observation=observationRepository.getObservationById(id);
+        return observation;
+    }
+    @Override
+    public ObservationDto getSpecificObs(String vulgarName) {
+        Observation observation=observationRepository.getObservationByVulgarName(vulgarName);
+        return observation.toDto();
+    }
     @Override
     public List<ObservationDto> getAllObs() {
         List<ObservationDto> dtoList=new ArrayList<>();
@@ -31,15 +40,15 @@ public class ObservationServiceImpl implements ObservationService {
     }
 
     @Override
-    public void createObservation(String genre, String species, String description) {
-        Observation observationToAdd=new Observation(genre,species,description);
+    public void createObservation(String genre, String species,String vulgarName, String description) {
+        Observation observationToAdd=new Observation(genre,species,vulgarName,description);
         observationRepository.save(observationToAdd);
     }
 
     @Override
-    public void createObservation(String genre, String species, String description, String imageUrl) {
+    public void createObservation(String genre, String species, String vulgarName, String description, String imageUrl) {
         imageUrl = "http://localhost:8080/api/uploads/" + imageUrl;
-        Observation observationToAdd=new Observation(genre,species,imageUrl,description);
+        Observation observationToAdd=new Observation(genre,species,vulgarName,imageUrl,description);
         observationRepository.save(observationToAdd);
     }
 
@@ -52,6 +61,14 @@ public class ObservationServiceImpl implements ObservationService {
         } else {
             observation.setObservationCounter(observation.getObservationCounter()+1);
             observationRepository.save(observation);
+        }
+    }
+
+    @Override
+    public void deleteObsById(Long id) {
+        Observation observationToDelete=observationRepository.getObservationById(id);
+        if(observationToDelete!=null){
+            observationRepository.delete(observationToDelete);
         }
     }
 }

@@ -7,5 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ObservationRepository extends CrudRepository<Observation,Long> {
     Observation getObservationById(Long id);
+    Observation getObservationByVulgarName(String vulgarName);
     Observation getObservationBySpecies(String species);
 }

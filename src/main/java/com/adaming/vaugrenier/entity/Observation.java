@@ -17,6 +17,7 @@ public class Observation implements Serializable {
     private Long id;
     private String genre;
     private String species;
+    private String vulgarName;
     private String imageUrl;
     private String description;
     private Date date;
@@ -25,23 +26,29 @@ public class Observation implements Serializable {
     public Observation(){
         this.observationCounter=1;
     }
-    public Observation(String genre,String species,String description){
+    public Observation(String genre,String species,String vulgarName,String description){
+        this.observationCounter=1;
         this.genre=genre;
         this.species=species;
+        this.vulgarName=vulgarName;
         this.description=description;
     }
-    public Observation(String genre,String species,String imageUrl,String description){
+    public Observation(String genre,String species,String vulgarName,String imageUrl,String description){
+        this.observationCounter=1;
         this.genre=genre;
         this.species=species;
+        this.vulgarName=vulgarName;
         this.imageUrl=imageUrl;
         this.description=description;
     }
-    public Observation(Long id, String genre,String species,String imageUrl,String description){
+    public Observation(Long id, String genre,String species,String vulgarName,String imageUrl,String description){
         this.id=id;
         this.genre=genre;
         this.species=species;
+        this.vulgarName=vulgarName;
         this.imageUrl=imageUrl;
         this.description=description;
+        this.observationCounter=1;
     }
     public Long getId() {
         return id;
@@ -91,12 +98,20 @@ public class Observation implements Serializable {
         this.date = date;
     }
 
+    public String getVulgarName() {
+        return vulgarName;
+    }
+
+    public void setVulgarName(String vulgarName) {
+        this.vulgarName = vulgarName;
+    }
+
     public void setObservationCounter(int observationCounter) {
         this.observationCounter = observationCounter;
     }
 
     public ObservationDto toDto(){
-        Observation observation=new Observation(this.id,this.genre,this.species,this.imageUrl,this.description);
-        return new ObservationDto(observation.getId(),observation.getGenre(),observation.getSpecies(),observation.getImageUrl(),observation.getDescription());
+        Observation observation=new Observation(this.id,this.genre,this.species,this.vulgarName,this.imageUrl,this.description);
+        return new ObservationDto(observation.getId(),observation.getGenre(),observation.getSpecies(),observation.getVulgarName(),observation.getImageUrl(),observation.getDescription());
     }
 }
