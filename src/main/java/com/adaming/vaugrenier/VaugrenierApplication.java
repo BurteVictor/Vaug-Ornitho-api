@@ -1,11 +1,17 @@
 package com.adaming.vaugrenier;
 
+import com.adaming.vaugrenier.entity.Role;
+import com.adaming.vaugrenier.entity.RoleNameEnum;
+import com.adaming.vaugrenier.repository.RoleRepository;
 import com.adaming.vaugrenier.service.observation.ObservationServiceImpl;
 import com.adaming.vaugrenier.service.user.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootApplication
 public class VaugrenierApplication implements CommandLineRunner {
@@ -14,6 +20,8 @@ public class VaugrenierApplication implements CommandLineRunner {
     UserServiceImpl userService;
     @Autowired
     ObservationServiceImpl observationService;
+    @Autowired
+    RoleRepository roleRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(VaugrenierApplication.class, args);
@@ -39,5 +47,27 @@ public class VaugrenierApplication implements CommandLineRunner {
                 "stalking its prey through the shallows.";
         imageUrl="vaugrenier_heron.jpg";
         observationService.createObservation(genre, species, vulgarName, description, imageUrl);
+
+        Role simpleUser=new Role(RoleNameEnum.USER,"simple user");
+        roleRepository.save(simpleUser);
+        Role expert=new Role(RoleNameEnum.EXPERT,"expert in ornithology field");
+        roleRepository.save(expert);
+
+        List<Role> rolesExpert=new ArrayList<>();
+        List<Role> userRole=new ArrayList<>();
+        rolesExpert.add(simpleUser);
+        rolesExpert.add(expert);
+        userRole.add(simpleUser);
+
+        String pseudo="Tryphon";
+        String email="vb@gmail.com";
+        String password="yoyo";
+        userService.register(pseudo,password,email,rolesExpert);
+
+        String pseudo1="Krispy";
+        String email1="krispy@gmail.com";
+        String password1="mypassword";
+        userService.register(pseudo1,password1,email1,userRole);
+
     }
 }
