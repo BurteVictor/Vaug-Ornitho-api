@@ -29,9 +29,14 @@ public class User implements Serializable {
         this.pseudo=pseudo;
         this.email=email;
     }
-    public User(Long id, String pseudo, String email, List<Role> role){
-        this.id=id;
+    public User(String pseudo, String password, String email){
         this.pseudo=pseudo;
+        this.password=password;
+        this.email=email;
+    }
+    public User( String pseudo, String password, String email, List<Role> role){
+        this.pseudo=pseudo;
+        this.password=password;
         this.email=email;
         this.role=role;
     }

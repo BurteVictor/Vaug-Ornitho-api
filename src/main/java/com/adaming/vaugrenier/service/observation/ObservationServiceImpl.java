@@ -42,4 +42,16 @@ public class ObservationServiceImpl implements ObservationService {
         Observation observationToAdd=new Observation(genre,species,imageUrl,description);
         observationRepository.save(observationToAdd);
     }
+
+    @Override
+    public void addCounterObs(Observation observation) {
+        Observation observationTotest=observationRepository.getObservationById(observation.getId());
+        if(observationTotest==null){
+            Observation newObs= new Observation(observation.getGenre(),observation.getSpecies(),observation.getImageUrl(),observation.getDescription());
+            observationRepository.save(newObs);
+        } else {
+            observation.setObservationCounter(observation.getObservationCounter()+1);
+            observationRepository.save(observation);
+        }
+    }
 }
