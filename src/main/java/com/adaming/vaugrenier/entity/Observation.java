@@ -25,7 +25,24 @@ public class Observation implements Serializable {
     public Observation(){
         this.observationCounter=1;
     }
-
+    public Observation(String genre,String species,String description){
+        this.genre=genre;
+        this.species=species;
+        this.description=description;
+    }
+    public Observation(String genre,String species,String imageUrl,String description){
+        this.genre=genre;
+        this.species=species;
+        this.imageUrl=imageUrl;
+        this.description=description;
+    }
+    public Observation(Long id, String genre,String species,String imageUrl,String description){
+        this.id=id;
+        this.genre=genre;
+        this.species=species;
+        this.imageUrl=imageUrl;
+        this.description=description;
+    }
     public Long getId() {
         return id;
     }
@@ -78,7 +95,8 @@ public class Observation implements Serializable {
         this.observationCounter = observationCounter;
     }
 
-    public ObservationDto toDto(Observation observation){
+    public ObservationDto toDto(){
+        Observation observation=new Observation(this.id,this.genre,this.species,this.imageUrl,this.description);
         return new ObservationDto(observation.getId(),observation.getGenre(),observation.getSpecies(),observation.getImageUrl(),observation.getDescription());
     }
 }
