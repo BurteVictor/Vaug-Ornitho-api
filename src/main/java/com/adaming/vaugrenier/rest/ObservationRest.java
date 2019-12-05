@@ -27,13 +27,20 @@ public class ObservationRest {
         List<ObservationDto> list = observationService.getAllObs();
         return list;
     }
+    @GetMapping("/observations/{id}")
+    public ObservationDto displaySingleObs(@PathVariable (name = "id") Long idToShow) {
+        ObservationDto observationDto = observationService.getSpecificObsDto(idToShow);
+        return observationDto;
+    }
     @PostMapping(path = "/observations/add", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ObservationDto addObservationSubmit(@ModelAttribute ObservationDto observationDto, @ModelAttribute MultipartFile file) {
-        if (file != null) {
-            imageService.storeAvatar(file);
-            observationDto.setImageUrl(file.getOriginalFilename());
+    public ObservationDto addObservationSubmit(@ModelAttribute ObservationDto observationDto) {
+        if (observationDto.getFile() != null) {
+            imageService.storeAvatar(observationDto.getFile());
+            observationDto.setImageUrl(observationDto.getFile().getOriginalFilename());
+            observationService.createObservation(observationDto.getGenre(), observationDto.getSpecies(), observationDto.getVulgarName(), observationDto.getImageUrl(), observationDto.getDescription());
+        } else {
+            observationService.createObservation(observationDto.getGenre(), observationDto.getSpecies(), observationDto.getVulgarName(), observationDto.getDescription());
         }
-        observationService.createObservation(observationDto.getGenre(), observationDto.getSpecies(), observationDto.getVulgarName(), observationDto.getDescription(), observationDto.getImageUrl());
         ObservationDto observationDtoToAdd = observationService.getSpecificObs(observationDto.getVulgarName());
         return observationDtoToAdd;
     }

@@ -37,7 +37,7 @@ public class VaugrenierApplication implements CommandLineRunner {
                 "across Eurasia and North Africa. It is resident in much of its range, but migrates from areas where rivers " +
                 "freeze in winter.";
         String imageUrl="martin_pecheur.jpg";
-        observationService.createObservation(genre, species, vulgarName, description, imageUrl);
+        observationService.createObservation(genre, species, vulgarName, imageUrl, description);
 
         genre="Ardea";
         species="cinerea";
@@ -46,7 +46,7 @@ public class VaugrenierApplication implements CommandLineRunner {
                 "It feeds mostly on aquatic creatures which it catches after standing stationary beside or in the water or " +
                 "stalking its prey through the shallows.";
         imageUrl="vaugrenier_heron.jpg";
-        observationService.createObservation(genre, species, vulgarName, description, imageUrl);
+        observationService.createObservation(genre, species, vulgarName, imageUrl, description);
 
         Role simpleUser=new Role(RoleNameEnum.USER,"simple user");
         roleRepository.save(simpleUser);

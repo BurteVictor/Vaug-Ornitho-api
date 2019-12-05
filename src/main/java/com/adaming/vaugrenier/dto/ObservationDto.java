@@ -1,5 +1,7 @@
 package com.adaming.vaugrenier.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class ObservationDto {
     private Long id;
     private String genre;
@@ -7,19 +9,30 @@ public class ObservationDto {
     private String vulgarName;
     private String imageUrl;
     private String description;
+    private int observationCounter;
+    private MultipartFile file;
 
 
     public ObservationDto(){}
 
     public ObservationDto(String genre, String species, String vulgarName,String imageUrl, String description) {
+        this.observationCounter=1;
         this.genre = genre;
         this.species = species;
         this.vulgarName=vulgarName;
         this.imageUrl = imageUrl;
         this.description = description;
     }
-
+    public ObservationDto(String genre, String species, String vulgarName, String description, MultipartFile file) {
+        this.observationCounter=1;
+        this.genre = genre;
+        this.species = species;
+        this.vulgarName=vulgarName;
+        this.file = file;
+        this.description = description;
+    }
     public ObservationDto(Long id, String genre, String species, String vulgarName, String imageUrl, String description) {
+        this.observationCounter=1;
         this.id = id;
         this.genre = genre;
         this.species = species;
@@ -70,5 +83,21 @@ public class ObservationDto {
 
     public void setVulgarName(String vulgarName) {
         this.vulgarName = vulgarName;
+    }
+
+    public int getObservationCounter() {
+        return observationCounter;
+    }
+
+    public void setObservationCounter(int observationCounter) {
+        this.observationCounter = observationCounter;
+    }
+
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    public void setFile(MultipartFile file) {
+        this.file = file;
     }
 }
