@@ -1,5 +1,6 @@
 package com.adaming.vaugrenier.rest;
 
+import com.adaming.vaugrenier.dto.DatesDto;
 import com.adaming.vaugrenier.dto.ObservationDto;
 import com.adaming.vaugrenier.entity.Observation;
 import com.adaming.vaugrenier.service.observation.ObservationServiceImpl;
@@ -34,13 +35,11 @@ public class ObservationRest {
     }
     @PostMapping(path = "/observations/add", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ObservationDto addObservationSubmit(@ModelAttribute ObservationDto observationDto) {
-        if (observationDto.getFile() != null) {
+        if (observationDto.getFile() != null ) {
             imageService.storeAvatar(observationDto.getFile());
             observationDto.setImageUrl(observationDto.getFile().getOriginalFilename());
-            observationService.createObservation(observationDto.getGenre(), observationDto.getSpecies(), observationDto.getVulgarName(), observationDto.getImageUrl(), observationDto.getDescription());
-        } else {
-            observationService.createObservation(observationDto.getGenre(), observationDto.getSpecies(), observationDto.getVulgarName(), observationDto.getDescription());
         }
+        observationService.createObservation(observationDto.getGenre(), observationDto.getSpecies(), observationDto.getVulgarName(), observationDto.getImageUrl(), observationDto.getDescription(),observationDto.getDay(),observationDto.getMonth(),observationDto.getYear());
         ObservationDto observationDtoToAdd = observationService.getSpecificObs(observationDto.getVulgarName());
         return observationDtoToAdd;
     }
@@ -85,5 +84,10 @@ public class ObservationRest {
                         "attachment; filename=\"" + file.getFilename() + "\"")
                 .body(file);
     }
-
+    @PostMapping("/observations/{id}/addDate")
+    public ObservationDto addNewDate(@PathVariable (name = "id") Long idToUpdate, @RequestBody DatesDto datesDto){
+        observationService.addDate(datesDto.getDay(),datesDto.getMonth(),datesDto.getYear(),idToUpdate);
+        ObservationDto observationDto=observationService.getSpecificObsDto(idToUpdate);
+        return observationDto;
+    }
 }

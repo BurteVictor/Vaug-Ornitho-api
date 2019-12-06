@@ -1,6 +1,7 @@
 package com.adaming.vaugrenier.service.observation;
 
 import com.adaming.vaugrenier.dto.ObservationDto;
+import com.adaming.vaugrenier.entity.Dates;
 import com.adaming.vaugrenier.entity.Observation;
 import com.adaming.vaugrenier.repository.ObservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +52,12 @@ public class ObservationServiceImpl implements ObservationService {
         Observation observationToAdd=new Observation(genre,species,vulgarName,imageUrl,description);
         observationRepository.save(observationToAdd);
     }
-
+    @Override
+    public void createObservation(String genre, String species, String vulgarName, String imageUrl, String description,String day,String month, String year) {
+        imageUrl = "http://localhost:8080/api/uploads/" + imageUrl;
+        Observation observationToAdd=new Observation(genre,species,vulgarName,imageUrl,description,day,month,year);
+        observationRepository.save(observationToAdd);
+    }
     @Override
     public void addCounterObs(Observation observation) {
         Observation observationTotest=observationRepository.getObservationById(observation.getId());
@@ -70,5 +76,23 @@ public class ObservationServiceImpl implements ObservationService {
         if(observationToDelete!=null){
             observationRepository.delete(observationToDelete);
         }
+    }
+
+    @Override
+    public List<Dates> getAllDates(Long id) {
+        List<Dates> dates=new ArrayList<>();
+        Observation observation=observationRepository.getObservationById(id);
+        for(int i=0;i<observation.getDates().size();i++) {
+            dates.add(observation.getDates().get(i));
+        }
+        return dates;
+    }
+
+    @Override
+    public void addDate(String day, String month, String year, Long id) {
+        Observation observation=observationRepository.getObservationById(id);
+        Dates dateToAdd=new Dates(day,month,year);
+        observation.getDates().add(dateToAdd);
+        observationRepository.save(observation);
     }
 }

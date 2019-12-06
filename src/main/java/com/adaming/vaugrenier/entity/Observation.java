@@ -1,12 +1,9 @@
 package com.adaming.vaugrenier.entity;
 
 import com.adaming.vaugrenier.dto.ObservationDto;
-import org.hibernate.annotations.Generated;
-import org.springframework.web.multipart.MultipartFile;
-
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "observation")
@@ -20,11 +17,29 @@ public class Observation implements Serializable {
     private String vulgarName;
     private String imageUrl;
     private String description;
-    private Date date;
+    private String day;
     private int observationCounter;
+    private String month;
+    private String year;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "observation_dates",
+            joinColumns = @JoinColumn(name = "observation_id",referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "dates_id",referencedColumnName = "id")
+    )
+    private List<Dates> dates;
 
     public Observation(){
         this.observationCounter=1;
+    }
+    public Observation(String genre,String species,String vulgarName,String description,String day, String month, String year){
+        this.observationCounter=1;
+        this.genre=genre;
+        this.species=species;
+        this.vulgarName=vulgarName;
+        this.description=description;
+        this.day=day;
+        this.month=month;
+        this.year=year;
     }
     public Observation(String genre,String species,String vulgarName,String description){
         this.observationCounter=1;
@@ -33,6 +48,17 @@ public class Observation implements Serializable {
         this.vulgarName=vulgarName;
         this.description=description;
     }
+    public Observation(String genre,String species,String vulgarName,String imageUrl,String description,String day, String month, String year){
+        this.observationCounter=1;
+        this.genre=genre;
+        this.species=species;
+        this.vulgarName=vulgarName;
+        this.imageUrl=imageUrl;
+        this.description=description;
+        this.day=day;
+        this.month=month;
+        this.year=year;
+    }
     public Observation(String genre,String species,String vulgarName,String imageUrl,String description){
         this.observationCounter=1;
         this.genre=genre;
@@ -40,6 +66,18 @@ public class Observation implements Serializable {
         this.vulgarName=vulgarName;
         this.imageUrl=imageUrl;
         this.description=description;
+    }
+    public Observation(Long id, String genre,String species,String vulgarName,String imageUrl,String description,String day, String month, String year){
+        this.id=id;
+        this.genre=genre;
+        this.species=species;
+        this.vulgarName=vulgarName;
+        this.imageUrl=imageUrl;
+        this.description=description;
+        this.day=day;
+        this.month=month;
+        this.year=year;
+        this.observationCounter=1;
     }
     public Observation(Long id, String genre,String species,String vulgarName,String imageUrl,String description){
         this.id=id;
@@ -70,10 +108,6 @@ public class Observation implements Serializable {
         return description;
     }
 
-    public Date getDate() {
-        return date;
-    }
-
     public int getObservationCounter() {
         return observationCounter;
     }
@@ -94,10 +128,6 @@ public class Observation implements Serializable {
         this.description = description;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
     public String getVulgarName() {
         return vulgarName;
     }
@@ -111,7 +141,39 @@ public class Observation implements Serializable {
     }
 
     public ObservationDto toDto(){
-        Observation observation=new Observation(this.id,this.genre,this.species,this.vulgarName,this.imageUrl,this.description);
-        return new ObservationDto(observation.getId(),observation.getGenre(),observation.getSpecies(),observation.getVulgarName(),observation.getImageUrl(),observation.getDescription());
+        Observation observation=new Observation(this.id,this.genre,this.species,this.vulgarName,this.imageUrl,this.description,this.day,this.month,this.year);
+        return new ObservationDto(observation.getId(),observation.getGenre(),observation.getSpecies(),observation.getVulgarName(),observation.getImageUrl(),observation.getDescription(),observation.getDates());
+    }
+
+    public String getDay() {
+        return day;
+    }
+
+    public void setDay(String day) {
+        this.day = day;
+    }
+
+    public String getMonth() {
+        return month;
+    }
+
+    public void setMonth(String month) {
+        this.month = month;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public List<Dates> getDates() {
+        return dates;
+    }
+
+    public void setDates(List<Dates> dates) {
+        this.dates = dates;
     }
 }

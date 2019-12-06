@@ -36,8 +36,11 @@ public class VaugrenierApplication implements CommandLineRunner {
                 "and river kingfisher, is a small kingfisher with seven subspecies recognized within its wide distribution " +
                 "across Eurasia and North Africa. It is resident in much of its range, but migrates from areas where rivers " +
                 "freeze in winter.";
+        String day="24";
+        String month="January";
+        String year="2015";
         String imageUrl="martin_pecheur.jpg";
-        observationService.createObservation(genre, species, vulgarName, imageUrl, description);
+        observationService.createObservation(genre, species, vulgarName, imageUrl, description,day,month,year);
 
         genre="Ardea";
         species="cinerea";
@@ -45,8 +48,11 @@ public class VaugrenierApplication implements CommandLineRunner {
         description="A bird of wetland areas, it can be seen around lakes, rivers, ponds, marshes and on the sea coast. " +
                 "It feeds mostly on aquatic creatures which it catches after standing stationary beside or in the water or " +
                 "stalking its prey through the shallows.";
+        day="02";
+        month="March";
+        year="2017";
         imageUrl="vaugrenier_heron.jpg";
-        observationService.createObservation(genre, species, vulgarName, imageUrl, description);
+        observationService.createObservation(genre, species, vulgarName, imageUrl, description,day,month,year);
 
         Role simpleUser=new Role(RoleNameEnum.USER,"simple user");
         roleRepository.save(simpleUser);
