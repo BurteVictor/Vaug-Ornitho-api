@@ -1,7 +1,9 @@
 package com.adaming.vaugrenier;
 
+import com.adaming.vaugrenier.entity.Dates;
 import com.adaming.vaugrenier.entity.Role;
 import com.adaming.vaugrenier.entity.RoleNameEnum;
+import com.adaming.vaugrenier.repository.DatesRepository;
 import com.adaming.vaugrenier.repository.RoleRepository;
 import com.adaming.vaugrenier.service.observation.ObservationServiceImpl;
 import com.adaming.vaugrenier.service.user.UserServiceImpl;
@@ -22,6 +24,8 @@ public class VaugrenierApplication implements CommandLineRunner {
     ObservationServiceImpl observationService;
     @Autowired
     RoleRepository roleRepository;
+    @Autowired
+    DatesRepository datesRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(VaugrenierApplication.class, args);
@@ -39,8 +43,18 @@ public class VaugrenierApplication implements CommandLineRunner {
         String day="24";
         String month="January";
         String year="2015";
+        Dates date1=new Dates(day,month,year);
+        datesRepository.save(date1);
+        day="02";
+        month="March";
+        year="2017";
+        Dates date2=new Dates(day,month,year);
+        datesRepository.save(date2);
+        List<Dates> dates=new ArrayList<>();
+        dates.add(date1);
+        dates.add(date2);
         String imageUrl="martin_pecheur.jpg";
-        observationService.createObservation(genre, species, vulgarName, imageUrl, description,day,month,year);
+        observationService.createObservation(genre, species, vulgarName, imageUrl, description,dates);
 
         genre="Ardea";
         species="cinerea";
@@ -48,11 +62,9 @@ public class VaugrenierApplication implements CommandLineRunner {
         description="A bird of wetland areas, it can be seen around lakes, rivers, ponds, marshes and on the sea coast. " +
                 "It feeds mostly on aquatic creatures which it catches after standing stationary beside or in the water or " +
                 "stalking its prey through the shallows.";
-        day="02";
-        month="March";
-        year="2017";
+
         imageUrl="vaugrenier_heron.jpg";
-        observationService.createObservation(genre, species, vulgarName, imageUrl, description,day,month,year);
+        observationService.createObservation(genre, species, vulgarName, imageUrl, description,dates);
 
         Role simpleUser=new Role(RoleNameEnum.USER,"simple user");
         roleRepository.save(simpleUser);

@@ -3,6 +3,7 @@ package com.adaming.vaugrenier.service.observation;
 import com.adaming.vaugrenier.dto.ObservationDto;
 import com.adaming.vaugrenier.entity.Dates;
 import com.adaming.vaugrenier.entity.Observation;
+import com.adaming.vaugrenier.repository.DatesRepository;
 import com.adaming.vaugrenier.repository.ObservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,8 @@ import java.util.List;
 public class ObservationServiceImpl implements ObservationService {
     @Autowired
     ObservationRepository observationRepository;
+    @Autowired
+    DatesRepository datesRepository;
 
     @Override
     public ObservationDto getSpecificObsDto(Long id) {
@@ -47,9 +50,18 @@ public class ObservationServiceImpl implements ObservationService {
     }
 
     @Override
-    public void createObservation(String genre, String species, String vulgarName, String imageUrl, String description) {
+    public void createDates(String day, String month, String year) {
+        Dates dates = new Dates (day, month, year);
+        datesRepository.save(dates);
+    }
+
+    @Override
+    public void createObservation(String genre, String species, String vulgarName, String imageUrl, String description, List<Dates> dates) {
         imageUrl = "http://localhost:8080/api/uploads/" + imageUrl;
-        Observation observationToAdd=new Observation(genre,species,vulgarName,imageUrl,description);
+        Observation observationToAdd=new Observation(genre,species,vulgarName,imageUrl,description, dates);
+        for(int i=0;i<dates.size();i++) {
+            this.createDates(dates.get(i).getDay(),dates.get(i).getMonth(),dates.get(i).getYear());
+        }
         observationRepository.save(observationToAdd);
     }
     @Override

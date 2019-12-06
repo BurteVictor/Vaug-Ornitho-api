@@ -41,7 +41,18 @@ public class Observation implements Serializable {
         this.month=month;
         this.year=year;
     }
-    public Observation(String genre,String species,String vulgarName,String description){
+
+    public Observation(String genre, String species, String vulgarName, String imageUrl, String description, List<Dates> dates) {
+        this.observationCounter=1;
+        this.genre = genre;
+        this.species = species;
+        this.vulgarName = vulgarName;
+        this.imageUrl = imageUrl;
+        this.description = description;
+        this.dates = dates;
+    }
+
+    public Observation(String genre, String species, String vulgarName, String description){
         this.observationCounter=1;
         this.genre=genre;
         this.species=species;

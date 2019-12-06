@@ -2,6 +2,7 @@ package com.adaming.vaugrenier.rest;
 
 import com.adaming.vaugrenier.dto.DatesDto;
 import com.adaming.vaugrenier.dto.ObservationDto;
+import com.adaming.vaugrenier.entity.Dates;
 import com.adaming.vaugrenier.entity.Observation;
 import com.adaming.vaugrenier.service.observation.ObservationServiceImpl;
 import com.adaming.vaugrenier.service.storage.ImageServiceImpl;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -32,6 +34,15 @@ public class ObservationRest {
     public ObservationDto displaySingleObs(@PathVariable (name = "id") Long idToShow) {
         ObservationDto observationDto = observationService.getSpecificObsDto(idToShow);
         return observationDto;
+    }
+    @GetMapping("/observations/{id}/dates")
+    public List<DatesDto> displaySingleObsDates(@PathVariable (name = "id") Long idToShow) {
+        List<Dates> dates = observationService.getSpecificObs(idToShow).getDates();
+        List<DatesDto> datesDtos=new ArrayList<>();
+        for(int i=0;i<dates.size();i++){
+            datesDtos.add(dates.get(i).toDto());
+        }
+        return datesDtos;
     }
     @PostMapping(path = "/observations/add", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ObservationDto addObservationSubmit(@ModelAttribute ObservationDto observationDto) {
