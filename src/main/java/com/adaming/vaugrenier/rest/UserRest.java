@@ -17,15 +17,10 @@ public class UserRest {
     @Autowired
     UserServiceImpl userService;
 
-    @GetMapping("/experts")
-    public List<String> displayExpertMails(){
+    @GetMapping(path = "/users/experts",consumes = MediaType.APPLICATION_JSON_VALUE,produces =MediaType.APPLICATION_JSON_VALUE )
+    public List<UserDto> displayExpertMails(){
         List<UserDto> userDtos=userService.getAllExperts();
-        List<String> contacts= new ArrayList<>();
-        for(int i=0;i<userDtos.size();i++){
-            String adress=userDtos.get(i).getPseudo() + " : "+userDtos.get(i).getEmail();
-            contacts.add(adress);
-        }
-        return contacts;
+        return userDtos;
     }
 
     @PostMapping(path = "/users/add", consumes = MediaType.APPLICATION_JSON_VALUE)

@@ -67,7 +67,11 @@ public class ObservationServiceImpl implements ObservationService {
     @Override
     public void createObservation(String genre, String species, String vulgarName, String imageUrl, String description,String day,String month, String year) {
         imageUrl = "http://localhost:8080/api/uploads/" + imageUrl;
-        Observation observationToAdd=new Observation(genre,species,vulgarName,imageUrl,description,day,month,year);
+        List<Dates> initList=new ArrayList<>();
+        Dates date=new Dates(day,month,year);
+        datesRepository.save(date);
+        initList.add(date);
+        Observation observationToAdd=new Observation(genre,species,vulgarName,imageUrl,description,initList);
         observationRepository.save(observationToAdd);
     }
     @Override
